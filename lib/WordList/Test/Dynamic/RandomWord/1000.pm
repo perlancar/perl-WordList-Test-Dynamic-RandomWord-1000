@@ -14,6 +14,7 @@ use Role::Tiny::With;
 with 'WordListRole::EachFromFirstNextReset';
 
 our $DYNAMIC = 2;
+our $SORT = 'random';
 
 sub reset_iterator {
     my $self = shift;
