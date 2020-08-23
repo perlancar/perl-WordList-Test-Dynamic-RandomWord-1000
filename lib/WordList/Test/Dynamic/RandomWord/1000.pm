@@ -5,6 +5,7 @@ package WordList::Test::Dynamic::RandomWord::1000;
 # DIST
 # VERSION
 
+use 5.010001;
 use strict;
 
 use WordList;
@@ -16,9 +17,20 @@ with 'WordListRole::EachFromFirstNextReset';
 our $DYNAMIC = 2;
 our $SORT = 'random';
 
+our %PARAMS = (
+    min_len => {
+        schema => 'uint*',
+        default => 5,
+    },
+    max_len => {
+        schema => 'uint*',
+        default => 8,
+    },
+);
+
 sub reset_iterator {
     my $self = shift;
-    $self->[0] = 0;
+    $self->{_iterator_idx} = 0;
 }
 
 sub first_word {
@@ -30,8 +42,11 @@ sub first_word {
 my @letters = "a".."z";
 sub next_word {
     my $self = shift;
-    return undef if $self->[0]++ >= 1000;
-    join("", map { $letters[rand @letters] } 1..int(5*rand)+3);
+    my $min_len = $self->{params}{min_len} // 5;
+    my $max_len = $self->{params}{max_len} // 8;
+    return undef if $self->{_iterator_idx}++ >= 1000;
+    join("", map { $letters[rand @letters] }
+             1..int(($max_len-$min_len+1)*rand)+$min_len);
 }
 
 # STATS
