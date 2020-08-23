@@ -28,6 +28,17 @@ our %PARAMS = (
     },
 );
 
+our @EXAMPLES = (
+    {
+        summary => '1000 random words, each 5-8 characters long (the default length range)',
+        args => {},
+    },
+    {
+        summary => '1000 random words, each 10-15 characters long',
+        args => {min_len=>10, max_len=>15},
+    },
+);
+
 sub reset_iterator {
     my $self = shift;
     $self->{_iterator_idx} = 0;
